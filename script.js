@@ -124,8 +124,10 @@
   const baseConfig = normalizeConfig(deepMerge(FALLBACK_CONFIG, window.SITE_CONFIG || {}));
   const eventOverride = readEventOverrideFromHash();
   const isEditing = new URLSearchParams(window.location.search).has("edit");
+  const initialDraftConfig = isEditing ? loadDraftConfig() : null;
+  let draftApplied = Boolean(initialDraftConfig);
   let currentConfig = normalizeConfig(
-    isEditing ? loadDraftConfig() || baseConfig : applyEventOverride(baseConfig, eventOverride),
+    isEditing ? initialDraftConfig || baseConfig : applyEventOverride(baseConfig, eventOverride),
   );
 
   function isPlainObject(value) {
@@ -349,7 +351,7 @@
     return match ? `${match[1]}-${match[2]}-${match[3]}` : "";
   }
 
-  function getEventState(eventContext, now = new Date()) {
+  function getEventState(eventContext, now = new Date(), options = {}) {
     if (!eventContext || !eventContext.enabled) return "inactive";
 
     const activeFrom = getDateKey(eventContext.activeFrom);
@@ -359,7 +361,7 @@
     const current = getTodayKey(now);
     if (current < activeFrom) return "upcoming";
     if (current <= activeUntil) return "active";
-    return "inactive";
+    return options.preservePast ? "past" : "inactive";
   }
 
   function createMetaRow(term, description) {
@@ -433,18 +435,28 @@
   }
 
   function renderContext() {
-    const eventState = getEventState(currentConfig.eventContext);
-    const eventVisible = eventState === "active" || eventState === "upcoming";
+    const eventState = getEventState(currentConfig.eventContext, new Date(), {
+      preservePast: Boolean(eventOverride) && !isEditing,
+    });
+    const eventVisible = eventState === "active" || eventState === "upcoming" || eventState === "past";
     const context = eventVisible ? currentConfig.eventContext : currentConfig.defaultContext;
     const title = eventState === "active"
       ? context.title
       : eventState === "upcoming"
         ? context.upcomingTitle
-        : currentConfig.defaultContext.title;
-    const kicker = eventState === "upcoming" ? context.upcomingKicker : context.kicker;
+        : eventState === "past"
+          ? "このイベントの文脈"
+          : currentConfig.defaultContext.title;
+    const kicker = eventState === "past"
+      ? "このイベントでお会いした方へ"
+      : eventState === "upcoming"
+        ? context.upcomingKicker
+        : context.kicker;
     const topicLabel = eventState === "upcoming"
       ? context.upcomingTopicLabel
-      : context.topicLabel;
+      : eventState === "past"
+        ? "このイベントで話しやすいこと"
+        : context.topicLabel;
     const summary = eventVisible ? context.eventName : currentConfig.defaultContext.summary;
 
     setText("[data-context-kicker]", kicker || "");
@@ -456,6 +468,7 @@
     const metaItems = [];
     if (eventVisible && context.displayDate) metaItems.push(createMetaRow("日付", context.displayDate));
     if (eventVisible && context.location) metaItems.push(createMetaRow("場所", context.location));
+    if (eventState === "past") metaItems.push(createMetaRow("状態", "過去イベントの文脈"));
     if (!eventVisible) metaItems.push(createMetaRow("状態", "常設の名刺ページ"));
     clearAndAppend(document.querySelector("[data-context-meta]"), metaItems);
 
@@ -824,7 +837,7 @@
 
   function buildPublicEventUrl(config) {
     const url = new URL(window.location.href);
-    url.searchParams.delete("edit");
+    url.search = "";
     const override = buildEventOverride(config);
     url.hash = `event=${base64UrlEncode(JSON.stringify(override))}`;
     return url.toString();
@@ -873,6 +886,11 @@
     if (status) status.textContent = message || "";
   }
 
+  function setDraftIndicator(visible) {
+    const indicator = document.querySelector("[data-draft-indicator]");
+    if (indicator) indicator.hidden = !visible;
+  }
+
   function bindEditorEvents() {
     const shell = document.querySelector("[data-editor-shell]");
     if (!shell) return;
@@ -888,6 +906,8 @@
       saveButton.addEventListener("click", () => {
         updateEditorState();
         saveDraftConfig(currentConfig);
+        draftApplied = true;
+        setDraftIndicator(true);
         setEditorStatus("下書きをこの端末に保存しました。公開ページにはまだ反映していません。");
       });
     }
@@ -896,8 +916,10 @@
     if (clearButton) {
       clearButton.addEventListener("click", () => {
         removeDraftConfig();
+        draftApplied = false;
         currentConfig = normalizeConfig(baseConfig);
         populateEditor(currentConfig);
+        setDraftIndicator(false);
         setEditorStatus("下書きを消して、config.js の状態に戻しました。");
       });
     }
@@ -906,8 +928,10 @@
     if (importButton) {
       importButton.addEventListener("click", () => {
         if (!eventOverride) return;
+        draftApplied = false;
         currentConfig = applyEventOverride(currentConfig, eventOverride);
         populateEditor(currentConfig);
+        setDraftIndicator(false);
         setEditorStatus("URLに入っていたイベント設定を編集画面に取り込みました。");
       });
     }
@@ -971,6 +995,7 @@
     if (shell) shell.hidden = false;
     if (importWrap) importWrap.hidden = !eventOverride;
     populateEditor(currentConfig);
+    setDraftIndicator(draftApplied);
   }
 
   function bindEvents() {

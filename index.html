@@ -141,14 +141,19 @@
           <p class="editor-eyebrow">編集モード</p>
           <h2>イベント用の公開URLを作る</h2>
           <p>
-            ここで変える内容は、この端末の下書きか、作成したイベントURLにだけ反映されます。
-            プロフィールやSNS本体を恒久変更する場合は config.js を更新します。
+            この画面は公開サイトを書き換えません。下書きはこの端末だけに保存されます。
+            公開するにはイベントURLをコピーしてQRにするか、config.js をGitHubで更新します。
           </p>
         </div>
 
         <div class="editor-warning" role="note">
-          公開URLにはイベント名・日付・話題・連絡先の表示ON/OFFだけを入れます。
-          メールアドレスやSNS URLは入れません。
+          イベントURLに入るのはイベント名・日付・場所・メモ・話題・連絡先の表示ON/OFFだけです。
+          プロフィール本文・SNS URL・ラベル・補足は最新の config.js を使います。
+          完全な過去スナップショットではありません。
+        </div>
+
+        <div class="editor-draft-indicator" data-draft-indicator hidden>
+          下書きが適用されています。QR生成前に内容を確認してください。
         </div>
 
         <div class="editor-import" data-event-import-wrap hidden>
@@ -274,9 +279,17 @@
             <div class="editor-actions">
               <button class="mini-button primary" type="button" data-copy-event-url>イベントURLをコピー</button>
               <button class="mini-button" type="button" data-save-draft>下書き保存</button>
-              <button class="mini-button" type="button" data-copy-config>config.jsをコピー</button>
               <button class="mini-button danger" type="button" data-clear-draft>下書きを消す</button>
             </div>
+            <details class="editor-advanced">
+              <summary>恒久変更が必要なとき</summary>
+              <p>
+                SNS URLやプロフィール本文を変える場合だけ使います。押しても公開はされません。
+              </p>
+              <button class="mini-button" type="button" data-copy-config>
+                恒久変更用 config.js をコピー
+              </button>
+            </details>
             <p class="editor-status" data-editor-status aria-live="polite"></p>
             <div class="editor-messages" data-editor-messages hidden></div>
             <label class="field output-field">
