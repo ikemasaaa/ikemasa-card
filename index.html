@@ -64,38 +64,38 @@
           <div class="topic-list" data-topic-list></div>
         </section>
 
-        <div class="side-stack">
-          <section class="panel profile-panel" id="profile" aria-labelledby="profile-title">
-            <div class="panel-heading">
-              <div class="panel-title">
-                <span class="section-icon" data-icon="user" aria-hidden="true"></span>
-                <h2 id="profile-title" data-profile-section-title>プロフィール</h2>
-              </div>
+        <section class="panel profile-panel" id="profile" aria-labelledby="profile-title">
+          <div class="panel-heading">
+            <div class="panel-title">
+              <span class="section-icon" data-icon="user" aria-hidden="true"></span>
+              <h2 id="profile-title" data-profile-section-title>プロフィール</h2>
             </div>
-            <p data-profile-body>
-              AIを使った業務改善や、プロダクトづくりの支援をしています。
-            </p>
-            <dl class="profile-list" data-profile-details></dl>
-          </section>
-
-          <section
-            class="panel contact-section"
-            id="contact"
-            aria-labelledby="contact-title"
-            data-contact-section
-            hidden
-          >
-            <div class="panel-heading">
-              <div class="panel-title">
-                <span class="section-icon" data-icon="send" aria-hidden="true"></span>
-                <h2 id="contact-title" data-contact-section-title>次にできること</h2>
-              </div>
-            </div>
-            <ul class="action-list" aria-label="連絡・外部リンク" data-contact-list></ul>
-            <p class="copy-status" data-copy-status aria-live="polite"></p>
-          </section>
-        </div>
+          </div>
+          <p class="profile-lede" data-profile-body>
+            AIを使った業務改善や、プロダクトづくりの支援をしています。
+          </p>
+          <div class="topic-list profile-detail-list" data-profile-details></div>
+        </section>
       </div>
+
+      <section
+        class="panel contact-section contact-panel"
+        id="contact"
+        aria-labelledby="contact-title"
+        data-contact-section
+        hidden
+      >
+        <div class="panel-heading">
+          <div class="panel-title">
+            <span class="section-icon" data-icon="send" aria-hidden="true"></span>
+            <h2 id="contact-title" data-contact-section-title>
+              各種SNS（良かったらぜひフォローしてください！）
+            </h2>
+          </div>
+        </div>
+        <ul class="action-list" aria-label="連絡・外部リンク" data-contact-list></ul>
+        <p class="copy-status" data-copy-status aria-live="polite"></p>
+      </section>
     </main>
 
     <footer class="site-footer">
@@ -116,7 +116,7 @@
 
         <div class="editor-warning" role="note">
           イベントURLに入るのはイベント名・日付・場所・メモ・話題・連絡先の表示ON/OFFだけです。
-          プロフィール本文・SNS URL・ラベル・補足は最新の config.js を使います。
+          プロフィール欄・SNS URL・ラベル・補足は最新の config.js を使います。
           完全な過去スナップショットではありません。
         </div>
 
@@ -150,10 +150,46 @@
               <span>短い説明</span>
               <textarea rows="2" data-editor-field="profile.description"></textarea>
             </label>
+          </section>
+
+          <section class="editor-section" aria-labelledby="editor-profile-detail-title">
+            <div class="editor-section-heading">
+              <h3 id="editor-profile-detail-title">プロフィール</h3>
+              <span class="editor-count">恒久設定</span>
+            </div>
+            <p class="editor-hint">
+              名刺本体のプロフィール欄です。相談テーマと同じように見出しと説明行で管理します。
+            </p>
+            <label class="field">
+              <span>セクション見出し</span>
+              <input type="text" data-editor-field="sections.profileTitle" />
+            </label>
             <label class="field">
               <span>プロフィール本文</span>
               <textarea rows="3" data-editor-field="profile.body"></textarea>
             </label>
+            <div class="profile-detail-editor-list">
+              <fieldset class="profile-detail-editor-row" data-editor-profile-detail-index="0">
+                <legend>1</legend>
+                <label class="field"><span>見出し</span><input type="text" data-profile-detail-field="term" /></label>
+                <label class="field"><span>説明</span><input type="text" data-profile-detail-field="description" /></label>
+              </fieldset>
+              <fieldset class="profile-detail-editor-row" data-editor-profile-detail-index="1">
+                <legend>2</legend>
+                <label class="field"><span>見出し</span><input type="text" data-profile-detail-field="term" /></label>
+                <label class="field"><span>説明</span><input type="text" data-profile-detail-field="description" /></label>
+              </fieldset>
+              <fieldset class="profile-detail-editor-row" data-editor-profile-detail-index="2">
+                <legend>3</legend>
+                <label class="field"><span>見出し</span><input type="text" data-profile-detail-field="term" /></label>
+                <label class="field"><span>説明</span><input type="text" data-profile-detail-field="description" /></label>
+              </fieldset>
+              <fieldset class="profile-detail-editor-row" data-editor-profile-detail-index="3">
+                <legend>4</legend>
+                <label class="field"><span>見出し</span><input type="text" data-profile-detail-field="term" /></label>
+                <label class="field"><span>説明</span><input type="text" data-profile-detail-field="description" /></label>
+              </fieldset>
+            </div>
           </section>
 
           <section class="editor-section" aria-labelledby="editor-base-topics-title">
@@ -253,6 +289,10 @@
               <h3 id="editor-contact-title">連絡先・SNS</h3>
               <span class="editor-count">本体設定</span>
             </div>
+            <label class="field">
+              <span>セクション見出し</span>
+              <input type="text" data-editor-field="sections.contactTitle" />
+            </label>
 
             <div class="contact-editor-list">
               <fieldset class="contact-editor-row" data-editor-contact-id="email">
@@ -312,9 +352,9 @@
               <button class="mini-button danger" type="button" data-clear-draft>下書きを消す</button>
             </div>
             <details class="editor-advanced">
-              <summary>基本文言・SNSを公開反映するとき</summary>
+              <summary>基本文言・プロフィール・SNSを公開反映するとき</summary>
               <p>
-                基本文言、普段相談できること、SNS URLを変える場合に使います。押しても公開はされません。
+                基本文言、プロフィール、普段相談できること、SNS URLを変える場合に使います。押しても公開はされません。
               </p>
               <button class="mini-button" type="button" data-copy-config>
                 恒久変更用 config.js をコピー

@@ -436,7 +436,7 @@ h1 {
   display: grid;
   grid-template-columns: minmax(0, 1.08fr) minmax(380px, 0.92fr);
   gap: 18px;
-  padding: 0 0 36px;
+  padding: 0 0 18px;
 }
 
 .panel {
@@ -487,26 +487,18 @@ h1 {
   line-height: 1.45;
 }
 
-.side-stack {
-  display: grid;
-  gap: 16px;
-  min-width: 0;
-}
-
-.profile-panel > p {
+.profile-lede {
   margin: 16px 0 0;
   color: var(--text);
   font-size: 1rem;
 }
 
-.profile-list {
-  display: none;
+.profile-detail-list {
+  margin-top: 16px;
 }
 
-.profile-list dt {
-  color: var(--muted);
-  font-size: 0.76rem;
-  font-weight: 780;
+.contact-panel {
+  margin-bottom: 36px;
 }
 
 .action-list {
@@ -679,7 +671,6 @@ h1 {
     padding-bottom: 28px;
   }
 
-  .profile-list,
   .action-list {
     grid-template-columns: 1fr;
   }
@@ -826,6 +817,7 @@ h1 {
 .editor-form,
 .editor-section,
 .topic-editor-list,
+.profile-detail-editor-list,
 .base-topic-editor-list,
 .contact-editor-list {
   display: grid;
@@ -927,6 +919,7 @@ h1 {
 }
 
 .contact-editor-row,
+.profile-detail-editor-row,
 .base-topic-editor-row {
   display: grid;
   gap: 10px;
@@ -937,6 +930,7 @@ h1 {
 }
 
 .contact-editor-row legend,
+.profile-detail-editor-row legend,
 .base-topic-editor-row legend {
   padding: 0 6px;
   color: var(--text);

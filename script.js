@@ -45,7 +45,7 @@
     sections: {
       topicsTitle: "普段相談できること",
       profileTitle: "プロフィール",
-      contactTitle: "次にできること",
+      contactTitle: "各種SNS（良かったらぜひフォローしてください！）",
     },
     topics: [
       {
@@ -416,10 +416,27 @@
     if (ogTitle) ogTitle.content = `${profile.name} | デジタル名刺`;
     if (ogDescription) ogDescription.content = profile.description || "";
 
-    clearAndAppend(
-      document.querySelector("[data-profile-details]"),
-      profile.details.map(({ term, description }) => createMetaRow(term, description)),
-    );
+    const icons = ["user", "workflow", "box", "chat"];
+    const detailNodes = profile.details.map(({ term, description }, index) => {
+      const article = document.createElement("article");
+      article.className = "topic-row profile-detail-row";
+
+      const iconWrap = document.createElement("span");
+      iconWrap.className = "topic-icon";
+      iconWrap.append(createIcon(icons[index] || "user", "icon"));
+
+      const copy = document.createElement("div");
+      const heading = document.createElement("h3");
+      const text = document.createElement("p");
+      heading.textContent = term;
+      text.textContent = description;
+      copy.append(heading, text);
+
+      article.append(iconWrap, copy);
+      return article;
+    });
+
+    clearAndAppend(document.querySelector("[data-profile-details]"), detailNodes);
   }
 
   function renderTopics() {
@@ -697,8 +714,17 @@
     setFieldValue("profile.name", profile.name || "");
     setFieldValue("profile.tagline", profile.tagline || "");
     setFieldValue("profile.description", profile.description || "");
-    setFieldValue("profile.body", profile.body || "");
+    setFieldValue("sections.profileTitle", sections.profileTitle || FALLBACK_CONFIG.sections.profileTitle);
     setFieldValue("sections.topicsTitle", sections.topicsTitle || FALLBACK_CONFIG.sections.topicsTitle);
+    setFieldValue("sections.contactTitle", sections.contactTitle || FALLBACK_CONFIG.sections.contactTitle);
+    setFieldValue("profile.body", profile.body || "");
+
+    document.querySelectorAll("[data-editor-profile-detail-index]").forEach((row) => {
+      const detail = (profile.details || [])[Number(row.dataset.editorProfileDetailIndex)] || {};
+      row.querySelectorAll("[data-profile-detail-field]").forEach((field) => {
+        field.value = detail[field.dataset.profileDetailField] || "";
+      });
+    });
 
     document.querySelectorAll("[data-editor-topic-index]").forEach((row) => {
       const topic = (config.topics || [])[Number(row.dataset.editorTopicIndex)] || {};
@@ -738,7 +764,20 @@
     next.profile.tagline = getFieldValue("profile.tagline");
     next.profile.description = getFieldValue("profile.description");
     next.profile.body = getFieldValue("profile.body");
+    next.profile.details = Array.from(document.querySelectorAll("[data-editor-profile-detail-index]"))
+      .map((row) => ({
+        term: (row.querySelector('[data-profile-detail-field="term"]')?.value || "").trim(),
+        description: (row.querySelector('[data-profile-detail-field="description"]')?.value || "").trim(),
+      }))
+      .filter((detail) => detail.term || detail.description)
+      .map((detail) => ({
+        term: detail.term || "プロフィール",
+        description: detail.description,
+      }))
+      .slice(0, 4);
+    next.sections.profileTitle = getFieldValue("sections.profileTitle") || FALLBACK_CONFIG.sections.profileTitle;
     next.sections.topicsTitle = getFieldValue("sections.topicsTitle") || FALLBACK_CONFIG.sections.topicsTitle;
+    next.sections.contactTitle = getFieldValue("sections.contactTitle") || FALLBACK_CONFIG.sections.contactTitle;
     next.topics = Array.from(document.querySelectorAll("[data-editor-topic-index]"))
       .map((row) => ({
         title: (row.querySelector('[data-base-topic-field="title"]')?.value || "").trim(),
@@ -789,7 +828,10 @@
     if (!profile.name) errors.push("表示名が空です。");
     if (!profile.tagline) warnings.push("肩書きが空です。");
     if (!profile.description) warnings.push("短い説明が空です。");
-    if (!config.sections?.topicsTitle) errors.push("セクション見出しが空です。");
+    if (!profile.body && !profile.details?.length) warnings.push("プロフィール欄が空です。");
+    if (!config.sections?.profileTitle) errors.push("プロフィールのセクション見出しが空です。");
+    if (!config.sections?.topicsTitle) errors.push("普段相談できることのセクション見出しが空です。");
+    if (!config.sections?.contactTitle) errors.push("SNS欄のセクション見出しが空です。");
     if (!config.topics || !config.topics.length) warnings.push("普段相談できることが空です。");
 
     if (eventContext.enabled) {
@@ -815,16 +857,17 @@
   function validateEventUrlConfig(config) {
     const errors = [];
     const baseContacts = new Map((baseConfig.contacts || []).map((contact) => [contact.id, contact]));
-    const changedProfile = ["name", "tagline", "description", "body"].some((key) => {
+    const changedProfileCopy = ["name", "tagline", "description", "body"].some((key) => {
       return String(config.profile?.[key] || "").trim() !== String(baseConfig.profile?.[key] || "").trim();
     });
-    const changedSectionTitles = ["topicsTitle"].some((key) => {
+    const changedProfileDetails = JSON.stringify(config.profile?.details || []) !== JSON.stringify(baseConfig.profile?.details || []);
+    const changedSectionTitles = ["profileTitle", "topicsTitle", "contactTitle"].some((key) => {
       return String(config.sections?.[key] || "").trim() !== String(baseConfig.sections?.[key] || "").trim();
     });
     const changedBaseTopics = JSON.stringify(config.topics || []) !== JSON.stringify(baseConfig.topics || []);
 
-    if (changedProfile) {
-      errors.push("基本文言の変更はイベントURLに入りません。恒久変更用 config.js をコピーして反映してください。");
+    if (changedProfileCopy || changedProfileDetails) {
+      errors.push("基本文言・プロフィールの変更はイベントURLに入りません。恒久変更用 config.js をコピーして反映してください。");
     }
 
     if (changedSectionTitles) {

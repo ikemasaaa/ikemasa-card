@@ -38,7 +38,7 @@ window.SITE_CONFIG = {
   sections: {
     topicsTitle: "普段相談できること",
     profileTitle: "プロフィール",
-    contactTitle: "次にできること",
+    contactTitle: "各種SNS（良かったらぜひフォローしてください！）",
   },
   topics: [
     {
