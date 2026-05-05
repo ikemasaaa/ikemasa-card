@@ -423,11 +423,7 @@
       text.textContent = description;
       copy.append(heading, text);
 
-      const arrow = document.createElement("span");
-      arrow.className = "row-arrow";
-      arrow.append(createIcon("arrow", "icon"));
-
-      article.append(iconWrap, copy, arrow);
+      article.append(iconWrap, copy);
       return article;
     });
 
@@ -483,35 +479,14 @@
   function renderContacts() {
     const contactConfig = Array.isArray(currentConfig.contacts) ? currentConfig.contacts : [];
     const contacts = contactConfig.filter(isDisplayableContact);
-    const hasActiveContacts = contactConfig.some((contact) => Boolean(getContactHref(contact)));
     const hasContacts = contacts.length > 0;
     const contactSection = document.querySelector("[data-contact-section]");
     const contactNav = document.querySelector("[data-contact-nav]");
     const contactNote = document.querySelector("[data-contact-note]");
-    const primaryCta = document.querySelector("[data-primary-cta]");
-    const secondaryCta = document.querySelector("[data-secondary-cta]");
 
     if (contactSection) contactSection.hidden = !hasContacts;
     if (contactNav) contactNav.hidden = !hasContacts;
     if (contactNote) contactNote.hidden = !hasContacts;
-
-    if (primaryCta && secondaryCta) {
-      if (hasActiveContacts) {
-        primaryCta.href = "#contact";
-        primaryCta.dataset.scrollTarget = "contact";
-        setButtonContent(primaryCta, "連絡する", "mail");
-        secondaryCta.href = "#topics";
-        secondaryCta.dataset.scrollTarget = "topics";
-        setButtonContent(secondaryCta, "話せることを見る", "chat");
-      } else {
-        primaryCta.href = "#topics";
-        primaryCta.dataset.scrollTarget = "topics";
-        setButtonContent(primaryCta, "話せることを見る", "chat");
-        secondaryCta.href = "#profile";
-        secondaryCta.dataset.scrollTarget = "profile";
-        setButtonContent(secondaryCta, "プロフィールを見る", "user");
-      }
-    }
 
     const contactNodes = contacts.map((contact) => {
       const item = document.createElement("li");
@@ -699,7 +674,20 @@
   }
 
   function populateEditor(config) {
+    const profile = config.profile || {};
     const eventContext = config.eventContext || {};
+    setFieldValue("profile.name", profile.name || "");
+    setFieldValue("profile.tagline", profile.tagline || "");
+    setFieldValue("profile.description", profile.description || "");
+    setFieldValue("profile.body", profile.body || "");
+
+    document.querySelectorAll("[data-editor-topic-index]").forEach((row) => {
+      const topic = (config.topics || [])[Number(row.dataset.editorTopicIndex)] || {};
+      row.querySelectorAll("[data-base-topic-field]").forEach((field) => {
+        field.value = topic[field.dataset.baseTopicField] || "";
+      });
+    });
+
     setFieldValue("event.enabled", Boolean(eventContext.enabled));
     setFieldValue("event.eventName", eventContext.eventName || "");
     setFieldValue("event.displayDate", eventContext.displayDate || "");
@@ -727,6 +715,22 @@
 
   function readEditorConfig() {
     const next = clone(baseConfig);
+    next.profile.name = getFieldValue("profile.name") || baseConfig.profile.name;
+    next.profile.tagline = getFieldValue("profile.tagline");
+    next.profile.description = getFieldValue("profile.description");
+    next.profile.body = getFieldValue("profile.body");
+    next.topics = Array.from(document.querySelectorAll("[data-editor-topic-index]"))
+      .map((row) => ({
+        title: (row.querySelector('[data-base-topic-field="title"]')?.value || "").trim(),
+        description: (row.querySelector('[data-base-topic-field="description"]')?.value || "").trim(),
+      }))
+      .filter((topic) => topic.title || topic.description)
+      .map((topic) => ({
+        title: topic.title || "相談テーマ",
+        description: topic.description,
+      }))
+      .slice(0, 4);
+
     next.eventContext.enabled = Boolean(getFieldValue("event.enabled"));
     next.eventContext.eventName = getFieldValue("event.eventName");
     next.eventContext.displayDate = getFieldValue("event.displayDate");
@@ -757,9 +761,15 @@
   function validateConfig(config) {
     const errors = [];
     const warnings = [];
+    const profile = config.profile || {};
     const eventContext = config.eventContext || {};
     const activeFrom = getDateKey(eventContext.activeFrom);
     const activeUntil = getDateKey(eventContext.activeUntil);
+
+    if (!profile.name) errors.push("表示名が空です。");
+    if (!profile.tagline) warnings.push("肩書きが空です。");
+    if (!profile.description) warnings.push("短い説明が空です。");
+    if (!config.topics || !config.topics.length) warnings.push("普段相談できることが空です。");
 
     if (eventContext.enabled) {
       if (!eventContext.eventName) errors.push("イベント名が空です。");
@@ -784,6 +794,18 @@
   function validateEventUrlConfig(config) {
     const errors = [];
     const baseContacts = new Map((baseConfig.contacts || []).map((contact) => [contact.id, contact]));
+    const changedProfile = ["name", "tagline", "description", "body"].some((key) => {
+      return String(config.profile?.[key] || "").trim() !== String(baseConfig.profile?.[key] || "").trim();
+    });
+    const changedBaseTopics = JSON.stringify(config.topics || []) !== JSON.stringify(baseConfig.topics || []);
+
+    if (changedProfile) {
+      errors.push("基本文言の変更はイベントURLに入りません。恒久変更用 config.js をコピーして反映してください。");
+    }
+
+    if (changedBaseTopics) {
+      errors.push("普段相談できることの変更はイベントURLに入りません。恒久変更用 config.js をコピーして反映してください。");
+    }
 
     (config.contacts || []).forEach((contact) => {
       if (!contact.enabled) return;
@@ -1039,15 +1061,7 @@
   }
 
   function initTheme() {
-    let savedTheme = "";
-    try {
-      savedTheme = window.localStorage.getItem(STORAGE_KEYS.theme)
-        || window.localStorage.getItem(STORAGE_KEYS.legacyTheme)
-        || "";
-    } catch (_error) {
-      savedTheme = "";
-    }
-    applyTheme(savedTheme || "dark");
+    applyTheme("dark");
   }
 
   initTheme();

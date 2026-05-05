@@ -25,23 +25,6 @@
 
     <div class="edit-layout" data-edit-layout>
       <div class="site-preview" data-site-preview>
-    <header class="site-header" aria-label="プロフィール概要">
-      <a class="brand" href="#top" aria-label="ページ先頭へ" data-scroll-target="top">
-        <strong data-profile-name>Ikemasa</strong>
-        <span data-profile-label>デジタル名刺</span>
-      </a>
-      <div class="header-actions">
-        <nav class="nav-links" aria-label="ページ内リンク">
-          <a href="#topics" data-scroll-target="topics">話せること</a>
-          <a href="#profile" data-scroll-target="profile">プロフィール</a>
-          <a href="#contact" data-contact-nav data-scroll-target="contact" hidden>連絡</a>
-        </nav>
-        <button class="theme-toggle" type="button" aria-label="テーマを切り替える" data-theme-toggle>
-          <span aria-hidden="true" data-theme-icon>☾</span>
-        </button>
-      </div>
-    </header>
-
     <main id="top" class="page-shell">
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-copy">
@@ -52,20 +35,6 @@
           <p class="lede" data-profile-description>
             現場の課題を、小さく試せる形に落とすところから手伝います。
           </p>
-          <div class="hero-actions" aria-label="主要アクション">
-            <a class="button primary" href="#topics" data-primary-cta data-scroll-target="topics">
-              <span class="button-icon" data-primary-icon aria-hidden="true"></span>
-              <span>話せることを見る</span>
-            </a>
-            <a class="button secondary" href="#profile" data-secondary-cta data-scroll-target="profile">
-              <span class="button-icon" data-secondary-icon aria-hidden="true"></span>
-              <span>プロフィールを見る</span>
-            </a>
-          </div>
-          <p class="availability" data-contact-note hidden>
-            <span class="note-icon" aria-hidden="true"></span>
-            ご連絡はご都合の良い方法で。無理な勧誘は一切しません。
-          </p>
         </div>
 
         <aside class="context-card" aria-labelledby="context-title" data-context-card>
@@ -74,7 +43,6 @@
               <span class="section-icon" data-icon="calendar" aria-hidden="true"></span>
               <p id="context-title" data-context-title>今回の文脈</p>
             </div>
-            <p class="context-kicker" data-context-kicker>Event</p>
           </div>
           <h2 data-context-summary>AIなんでも展示会</h2>
           <dl class="context-meta" data-context-meta></dl>
@@ -162,6 +130,64 @@
         </div>
 
         <form class="editor-form" data-editor-form>
+          <section class="editor-section" aria-labelledby="editor-profile-title">
+            <div class="editor-section-heading">
+              <h3 id="editor-profile-title">基本文言</h3>
+              <span class="editor-count">恒久設定</span>
+            </div>
+            <p class="editor-hint">
+              ここを変えた場合はイベントURLだけでは公開反映されません。恒久変更用 config.js を使います。
+            </p>
+            <label class="field">
+              <span>表示名</span>
+              <input type="text" data-editor-field="profile.name" autocomplete="off" />
+            </label>
+            <label class="field">
+              <span>肩書き</span>
+              <input type="text" data-editor-field="profile.tagline" />
+            </label>
+            <label class="field">
+              <span>短い説明</span>
+              <textarea rows="2" data-editor-field="profile.description"></textarea>
+            </label>
+            <label class="field">
+              <span>プロフィール本文</span>
+              <textarea rows="3" data-editor-field="profile.body"></textarea>
+            </label>
+          </section>
+
+          <section class="editor-section" aria-labelledby="editor-base-topics-title">
+            <div class="editor-section-heading">
+              <h3 id="editor-base-topics-title">普段相談できること</h3>
+              <span class="editor-count">恒久設定</span>
+            </div>
+            <p class="editor-hint">
+              名刺本体に常に出す相談テーマです。イベントごとの話題とは別に管理します。
+            </p>
+            <div class="base-topic-editor-list">
+              <fieldset class="base-topic-editor-row" data-editor-topic-index="0">
+                <legend>1</legend>
+                <label class="field"><span>見出し</span><input type="text" data-base-topic-field="title" /></label>
+                <label class="field"><span>説明</span><input type="text" data-base-topic-field="description" /></label>
+              </fieldset>
+              <fieldset class="base-topic-editor-row" data-editor-topic-index="1">
+                <legend>2</legend>
+                <label class="field"><span>見出し</span><input type="text" data-base-topic-field="title" /></label>
+                <label class="field"><span>説明</span><input type="text" data-base-topic-field="description" /></label>
+              </fieldset>
+              <fieldset class="base-topic-editor-row" data-editor-topic-index="2">
+                <legend>3</legend>
+                <label class="field"><span>見出し</span><input type="text" data-base-topic-field="title" /></label>
+                <label class="field"><span>説明</span><input type="text" data-base-topic-field="description" /></label>
+              </fieldset>
+              <fieldset class="base-topic-editor-row" data-editor-topic-index="3">
+                <legend>4</legend>
+                <label class="field"><span>見出し</span><input type="text" data-base-topic-field="title" /></label>
+                <label class="field"><span>説明</span><input type="text" data-base-topic-field="description" /></label>
+              </fieldset>
+            </div>
+          </section>
+
           <section class="editor-section" aria-labelledby="editor-event-title">
             <div class="editor-section-heading">
               <h3 id="editor-event-title">会ごとの文脈</h3>
@@ -282,9 +308,9 @@
               <button class="mini-button danger" type="button" data-clear-draft>下書きを消す</button>
             </div>
             <details class="editor-advanced">
-              <summary>恒久変更が必要なとき</summary>
+              <summary>基本文言・SNSを公開反映するとき</summary>
               <p>
-                SNS URLやプロフィール本文を変える場合だけ使います。押しても公開はされません。
+                基本文言、普段相談できること、SNS URLを変える場合に使います。押しても公開はされません。
               </p>
               <button class="mini-button" type="button" data-copy-config>
                 恒久変更用 config.js をコピー
