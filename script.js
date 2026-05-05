@@ -42,6 +42,11 @@
       topicLabel: "相談しやすいこと",
       topics: ["AI活用の入口設計", "業務効率化・自動化", "プロダクトづくり", "壁打ち・整理"],
     },
+    sections: {
+      topicsTitle: "普段相談できること",
+      profileTitle: "プロフィール",
+      contactTitle: "次にできること",
+    },
     topics: [
       {
         title: "AI活用の入口設計",
@@ -163,6 +168,10 @@
     next.defaultContext.topics = Array.isArray(next.defaultContext.topics)
       ? next.defaultContext.topics.filter(Boolean).map((topic) => String(topic).trim()).filter(Boolean)
       : [];
+    next.sections = {
+      ...FALLBACK_CONFIG.sections,
+      ...(isPlainObject(next.sections) ? next.sections : {}),
+    };
     next.contacts = ensureContactSet(next.contacts);
     return next;
   }
@@ -375,10 +384,18 @@
   }
 
   function renderAll() {
+    renderSectionTitles();
     renderProfile();
     renderTopics();
     renderContext();
     renderContacts();
+  }
+
+  function renderSectionTitles() {
+    const sections = currentConfig.sections || {};
+    setText("[data-topics-title]", sections.topicsTitle || FALLBACK_CONFIG.sections.topicsTitle);
+    setText("[data-profile-section-title]", sections.profileTitle || FALLBACK_CONFIG.sections.profileTitle);
+    setText("[data-contact-section-title]", sections.contactTitle || FALLBACK_CONFIG.sections.contactTitle);
   }
 
   function renderProfile() {
@@ -675,11 +692,13 @@
 
   function populateEditor(config) {
     const profile = config.profile || {};
+    const sections = config.sections || {};
     const eventContext = config.eventContext || {};
     setFieldValue("profile.name", profile.name || "");
     setFieldValue("profile.tagline", profile.tagline || "");
     setFieldValue("profile.description", profile.description || "");
     setFieldValue("profile.body", profile.body || "");
+    setFieldValue("sections.topicsTitle", sections.topicsTitle || FALLBACK_CONFIG.sections.topicsTitle);
 
     document.querySelectorAll("[data-editor-topic-index]").forEach((row) => {
       const topic = (config.topics || [])[Number(row.dataset.editorTopicIndex)] || {};
@@ -719,6 +738,7 @@
     next.profile.tagline = getFieldValue("profile.tagline");
     next.profile.description = getFieldValue("profile.description");
     next.profile.body = getFieldValue("profile.body");
+    next.sections.topicsTitle = getFieldValue("sections.topicsTitle") || FALLBACK_CONFIG.sections.topicsTitle;
     next.topics = Array.from(document.querySelectorAll("[data-editor-topic-index]"))
       .map((row) => ({
         title: (row.querySelector('[data-base-topic-field="title"]')?.value || "").trim(),
@@ -769,6 +789,7 @@
     if (!profile.name) errors.push("表示名が空です。");
     if (!profile.tagline) warnings.push("肩書きが空です。");
     if (!profile.description) warnings.push("短い説明が空です。");
+    if (!config.sections?.topicsTitle) errors.push("セクション見出しが空です。");
     if (!config.topics || !config.topics.length) warnings.push("普段相談できることが空です。");
 
     if (eventContext.enabled) {
@@ -797,10 +818,17 @@
     const changedProfile = ["name", "tagline", "description", "body"].some((key) => {
       return String(config.profile?.[key] || "").trim() !== String(baseConfig.profile?.[key] || "").trim();
     });
+    const changedSectionTitles = ["topicsTitle"].some((key) => {
+      return String(config.sections?.[key] || "").trim() !== String(baseConfig.sections?.[key] || "").trim();
+    });
     const changedBaseTopics = JSON.stringify(config.topics || []) !== JSON.stringify(baseConfig.topics || []);
 
     if (changedProfile) {
       errors.push("基本文言の変更はイベントURLに入りません。恒久変更用 config.js をコピーして反映してください。");
+    }
+
+    if (changedSectionTitles) {
+      errors.push("セクション見出しの変更はイベントURLに入りません。恒久変更用 config.js をコピーして反映してください。");
     }
 
     if (changedBaseTopics) {

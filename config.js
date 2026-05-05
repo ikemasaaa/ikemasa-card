@@ -3,10 +3,10 @@ window.SITE_CONFIG = {
   profile: {
     name: "Ikemasa",
     label: "デジタル名刺",
-    tagline: "AI活用・業務改善・プロダクトづくりの相談相手",
-    description: "現場の課題を、小さく試せる形に落とすところから手伝います。",
+    tagline: "いけまさ",
+    description: "非エンジニアなりに、AIエージェントで身の回りを整えたりしてます",
     body:
-      "AIを使った業務改善や、プロダクトづくりの支援をしています。現場の課題を丁寧に聞き、小さく試せる形に落とし込むところから伴走します。話すのが好きで、整理するのも得意です。",
+      "大阪府出身→同志社大学商学部卒業→大手ECに新卒入社し計画管理・施策運用担当/2026年3月ごろからバイブコーディング開始/服好き",
     details: [
       { term: "相談しやすいこと", description: "AI活用の入口、業務改善、MVP、壁打ち" },
       { term: "今日の使い方", description: "話した内容を思い出し、必要なら後からつながる" },
@@ -26,7 +26,7 @@ window.SITE_CONFIG = {
     note: "会場でお会いした方向けの短いメモです。",
     topicLabel: "今日話せること",
     upcomingTopicLabel: "今回話せること",
-    topics: ["AI導入の最初の一歩", "業務効率化の相談", "プロダクト開発の壁打ち"],
+    topics: ["自己紹介", "NotBadについて", "その他なんでも"],
   },
   defaultContext: {
     kicker: "Default",
@@ -34,6 +34,11 @@ window.SITE_CONFIG = {
     summary: "イベントがない日も、こんな相談なら話しやすいです。",
     topicLabel: "相談しやすいこと",
     topics: ["AI活用の入口設計", "業務効率化・自動化", "プロダクトづくり", "壁打ち・整理"],
+  },
+  sections: {
+    topicsTitle: "普段相談できること",
+    profileTitle: "プロフィール",
+    contactTitle: "次にできること",
   },
   topics: [
     {
@@ -59,9 +64,9 @@ window.SITE_CONFIG = {
       type: "email",
       icon: "mail",
       label: "メールで連絡する",
-      value: "",
-      detail: "メールアドレス未設定",
-      enabled: false,
+      value: "ikedamasaki0713@gmail.com",
+      detail: "",
+      enabled: true,
       showWhenDisabled: true,
     },
     {
@@ -69,7 +74,7 @@ window.SITE_CONFIG = {
       type: "url",
       icon: "x",
       label: "Xでつながる",
-      value: "https://x.com/ikedamasaki",
+      value: "https://x.com/ikedama___",
       detail: "ゆるく情報交換しましょう",
       enabled: true,
       showWhenDisabled: false,
@@ -91,7 +96,7 @@ window.SITE_CONFIG = {
       label: "GitHubを見る",
       value: "https://github.com/ikedamasaki",
       detail: "公開している制作物など",
-      enabled: true,
+      enabled: false,
       showWhenDisabled: false,
     },
   ],
