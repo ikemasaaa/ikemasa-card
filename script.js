@@ -406,6 +406,9 @@
     setPhraseText("[data-profile-tagline]", profile.tagline);
     setText("[data-profile-description]", profile.description);
     setText("[data-profile-body]", profile.body);
+    document.querySelectorAll("[data-profile-body]").forEach((node) => {
+      node.hidden = !String(profile.body || "").trim();
+    });
     setText("[data-footer-name]", profile.name);
 
     document.title = `${profile.name} | ${profile.tagline}`;

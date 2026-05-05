@@ -5,11 +5,14 @@ window.SITE_CONFIG = {
     label: "デジタル名刺",
     tagline: "いけまさ",
     description: "非エンジニアなりに、AIエージェントで身の回りを整えたりしてます",
-    body:
-      "大阪府出身→同志社大学商学部卒業→大手ECに新卒入社し計画管理・施策運用担当/2026年3月ごろからバイブコーディング開始/服好き",
+    body: "",
     details: [
-      { term: "相談しやすいこと", description: "AI活用の入口、業務改善、MVP、壁打ち" },
-      { term: "今日の使い方", description: "話した内容を思い出し、必要なら後からつながる" },
+      {
+        term: "経歴",
+        description: "大阪府出身→同志社大学商学部卒業→大手ECで計画管理・施策運用担当",
+      },
+      { term: "AI歴", description: "2026/03ごろから開始（Claude Code→codex）" },
+      { term: "趣味", description: "ファッション・飲酒・音楽・バスケ・バイブコーディング" },
     ],
   },
   eventContext: {
@@ -36,26 +39,22 @@ window.SITE_CONFIG = {
     topics: ["AI活用の入口設計", "業務効率化・自動化", "プロダクトづくり", "壁打ち・整理"],
   },
   sections: {
-    topicsTitle: "普段相談できること",
+    topicsTitle: "最近の個人開発",
     profileTitle: "プロフィール",
     contactTitle: "各種SNS（良かったらぜひフォローしてください！）",
   },
   topics: [
     {
-      title: "AI活用の入口設計",
-      description: "何から試すべきか、業務にどう入れるかを一緒に整理します。",
+      title: "NotBad（Martinと共同）",
+      description: "「AIじゃなくて、友人から紹介してもらった服は嬉しくね？」が発端。",
     },
     {
-      title: "業務効率化・自動化",
-      description: "手作業や属人化している流れを、小さく改善できる形に分解します。",
+      title: "Shimatta!!!",
+      description: "失敗談を集めるレビューサイト（絶賛揉み中）",
     },
     {
-      title: "プロダクトづくり",
-      description: "アイデアを画面、仕様、プロトタイプに落とします。",
-    },
-    {
-      title: "壁打ち・整理",
-      description: "まだ曖昧な相談を、次の手に変えるところから手伝います。",
+      title: "AI秘書",
+      description: "Discordから動くAIエージェントBot（codex）",
     },
   ],
   contacts: [
