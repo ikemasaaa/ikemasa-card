@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <meta name="theme-color" content="#0a0b0d" />
+    <title>Ikemasa | AI活用・業務改善・プロダクトづくりの相談相手</title>
+    <meta
+      name="description"
+      content="AI活用、業務改善、プロダクトづくりについて相談できる個人名刺ページです。"
+    />
+    <meta property="og:title" content="Ikemasa | デジタル名刺" />
+    <meta
+      property="og:description"
+      content="AI活用、業務改善、プロダクトづくりについて相談できる個人名刺ページです。"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="./assets/og-card.svg" />
+    <link rel="icon" href="./assets/profile-mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#topics" data-scroll-target="topics">話せることへ移動</a>
+
+    <div class="edit-layout" data-edit-layout>
+      <div class="site-preview" data-site-preview>
+    <header class="site-header" aria-label="プロフィール概要">
+      <a class="brand" href="#top" aria-label="ページ先頭へ" data-scroll-target="top">
+        <strong data-profile-name>Ikemasa</strong>
+        <span data-profile-label>デジタル名刺</span>
+      </a>
+      <div class="header-actions">
+        <nav class="nav-links" aria-label="ページ内リンク">
+          <a href="#topics" data-scroll-target="topics">話せること</a>
+          <a href="#profile" data-scroll-target="profile">プロフィール</a>
+          <a href="#contact" data-contact-nav data-scroll-target="contact" hidden>連絡</a>
+        </nav>
+        <button class="theme-toggle" type="button" aria-label="テーマを切り替える" data-theme-toggle>
+          <span aria-hidden="true" data-theme-icon>☾</span>
+        </button>
+      </div>
+    </header>
+
+    <main id="top" class="page-shell">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <h1 id="hero-title" data-profile-headline>Ikemasa</h1>
+          <p class="role" data-profile-tagline>
+            AI活用・業務改善・プロダクトづくりの相談相手
+          </p>
+          <p class="lede" data-profile-description>
+            現場の課題を、小さく試せる形に落とすところから手伝います。
+          </p>
+          <div class="hero-actions" aria-label="主要アクション">
+            <a class="button primary" href="#topics" data-primary-cta data-scroll-target="topics">
+              <span class="button-icon" data-primary-icon aria-hidden="true"></span>
+              <span>話せることを見る</span>
+            </a>
+            <a class="button secondary" href="#profile" data-secondary-cta data-scroll-target="profile">
+              <span class="button-icon" data-secondary-icon aria-hidden="true"></span>
+              <span>プロフィールを見る</span>
+            </a>
+          </div>
+          <p class="availability" data-contact-note hidden>
+            <span class="note-icon" aria-hidden="true"></span>
+            ご連絡はご都合の良い方法で。無理な勧誘は一切しません。
+          </p>
+        </div>
+
+        <aside class="context-card" aria-labelledby="context-title" data-context-card>
+          <div class="panel-heading">
+            <div class="panel-title">
+              <span class="section-icon" data-icon="calendar" aria-hidden="true"></span>
+              <p id="context-title" data-context-title>今回の文脈</p>
+            </div>
+            <p class="context-kicker" data-context-kicker>Event</p>
+          </div>
+          <h2 data-context-summary>AIなんでも展示会</h2>
+          <dl class="context-meta" data-context-meta></dl>
+          <div class="context-topic-wrap">
+            <p class="context-label" data-context-topic-label>今回話せること</p>
+            <ol class="context-topics" data-context-topics></ol>
+          </div>
+        </aside>
+      </section>
+
+      <div class="content-grid">
+        <section class="panel topics-panel" id="topics" aria-labelledby="topics-title">
+          <div class="panel-heading">
+            <div class="panel-title">
+              <span class="section-icon" data-icon="chat" aria-hidden="true"></span>
+              <h2 id="topics-title">普段相談できること</h2>
+            </div>
+          </div>
+          <div class="topic-list" data-topic-list></div>
+        </section>
+
+        <div class="side-stack">
+          <section class="panel profile-panel" id="profile" aria-labelledby="profile-title">
+            <div class="panel-heading">
+              <div class="panel-title">
+                <span class="section-icon" data-icon="user" aria-hidden="true"></span>
+                <h2 id="profile-title">プロフィール</h2>
+              </div>
+            </div>
+            <p data-profile-body>
+              AIを使った業務改善や、プロダクトづくりの支援をしています。
+            </p>
+            <dl class="profile-list" data-profile-details></dl>
+          </section>
+
+          <section
+            class="panel contact-section"
+            id="contact"
+            aria-labelledby="contact-title"
+            data-contact-section
+            hidden
+          >
+            <div class="panel-heading">
+              <div class="panel-title">
+                <span class="section-icon" data-icon="send" aria-hidden="true"></span>
+                <h2 id="contact-title">次にできること</h2>
+              </div>
+            </div>
+            <ul class="action-list" aria-label="連絡・外部リンク" data-contact-list></ul>
+            <p class="copy-status" data-copy-status aria-live="polite"></p>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <span>© 2026 <span data-footer-name>Ikemasa</span></span>
+      <span data-footer-context>Personal card</span>
+    </footer>
+      </div>
+
+      <aside class="editor-panel" aria-label="名刺サイト編集" data-editor-shell hidden>
+        <div class="editor-header">
+          <p class="editor-eyebrow">編集モード</p>
+          <h2>イベント用の公開URLを作る</h2>
+          <p>
+            ここで変える内容は、この端末の下書きか、作成したイベントURLにだけ反映されます。
+            プロフィールやSNS本体を恒久変更する場合は config.js を更新します。
+          </p>
+        </div>
+
+        <div class="editor-warning" role="note">
+          公開URLにはイベント名・日付・話題・連絡先の表示ON/OFFだけを入れます。
+          メールアドレスやSNS URLは入れません。
+        </div>
+
+        <div class="editor-import" data-event-import-wrap hidden>
+          <p>このURLにはイベント設定が含まれています。</p>
+          <button class="mini-button" type="button" data-import-event>この内容を編集に取り込む</button>
+        </div>
+
+        <form class="editor-form" data-editor-form>
+          <section class="editor-section" aria-labelledby="editor-event-title">
+            <div class="editor-section-heading">
+              <h3 id="editor-event-title">会ごとの文脈</h3>
+              <label class="switch-field">
+                <input type="checkbox" data-editor-field="event.enabled" />
+                <span>表示</span>
+              </label>
+            </div>
+
+            <label class="field">
+              <span>イベント名</span>
+              <input type="text" data-editor-field="event.eventName" autocomplete="off" />
+            </label>
+
+            <div class="field-grid">
+              <label class="field">
+                <span>表示日付</span>
+                <input type="text" data-editor-field="event.displayDate" placeholder="2026.05.06" />
+              </label>
+              <label class="field">
+                <span>場所・ブース</span>
+                <input type="text" data-editor-field="event.location" placeholder="未設定でもOK" />
+              </label>
+            </div>
+
+            <div class="field-grid">
+              <label class="field">
+                <span>表示開始日</span>
+                <input type="date" data-editor-field="event.activeFrom" />
+              </label>
+              <label class="field">
+                <span>表示終了日</span>
+                <input type="date" data-editor-field="event.activeUntil" />
+              </label>
+            </div>
+
+            <label class="field">
+              <span>短いメモ</span>
+              <textarea rows="2" data-editor-field="event.note"></textarea>
+            </label>
+          </section>
+
+          <section class="editor-section" aria-labelledby="editor-topics-title">
+            <div class="editor-section-heading">
+              <h3 id="editor-topics-title">その場で話しやすいトピック</h3>
+              <span class="editor-count">最大5個</span>
+            </div>
+            <div class="topic-editor-list">
+              <label class="field compact"><span>1</span><input type="text" data-event-topic /></label>
+              <label class="field compact"><span>2</span><input type="text" data-event-topic /></label>
+              <label class="field compact"><span>3</span><input type="text" data-event-topic /></label>
+              <label class="field compact"><span>4</span><input type="text" data-event-topic /></label>
+              <label class="field compact"><span>5</span><input type="text" data-event-topic /></label>
+            </div>
+          </section>
+
+          <section class="editor-section" aria-labelledby="editor-contact-title">
+            <div class="editor-section-heading">
+              <h3 id="editor-contact-title">連絡先・SNS</h3>
+              <span class="editor-count">本体設定</span>
+            </div>
+
+            <div class="contact-editor-list">
+              <fieldset class="contact-editor-row" data-editor-contact-id="email">
+                <legend>メール</legend>
+                <label class="switch-field">
+                  <input type="checkbox" data-contact-field="enabled" />
+                  <span>表示</span>
+                </label>
+                <label class="field"><span>ラベル</span><input type="text" data-contact-field="label" /></label>
+                <label class="field"><span>メールアドレス</span><input type="email" data-contact-field="value" autocomplete="email" /></label>
+                <label class="field"><span>補足</span><input type="text" data-contact-field="detail" /></label>
+              </fieldset>
+
+              <fieldset class="contact-editor-row" data-editor-contact-id="x">
+                <legend>X</legend>
+                <label class="switch-field">
+                  <input type="checkbox" data-contact-field="enabled" />
+                  <span>表示</span>
+                </label>
+                <label class="field"><span>ラベル</span><input type="text" data-contact-field="label" /></label>
+                <label class="field"><span>URL</span><input type="url" data-contact-field="value" placeholder="https://x.com/..." /></label>
+                <label class="field"><span>補足</span><input type="text" data-contact-field="detail" /></label>
+              </fieldset>
+
+              <fieldset class="contact-editor-row" data-editor-contact-id="instagram">
+                <legend>Instagram</legend>
+                <label class="switch-field">
+                  <input type="checkbox" data-contact-field="enabled" />
+                  <span>表示</span>
+                </label>
+                <label class="field"><span>ラベル</span><input type="text" data-contact-field="label" /></label>
+                <label class="field"><span>URL</span><input type="url" data-contact-field="value" placeholder="https://www.instagram.com/..." /></label>
+                <label class="field"><span>補足</span><input type="text" data-contact-field="detail" /></label>
+              </fieldset>
+
+              <fieldset class="contact-editor-row" data-editor-contact-id="github">
+                <legend>GitHub</legend>
+                <label class="switch-field">
+                  <input type="checkbox" data-contact-field="enabled" />
+                  <span>表示</span>
+                </label>
+                <label class="field"><span>ラベル</span><input type="text" data-contact-field="label" /></label>
+                <label class="field"><span>URL</span><input type="url" data-contact-field="value" placeholder="https://github.com/..." /></label>
+                <label class="field"><span>補足</span><input type="text" data-contact-field="detail" /></label>
+              </fieldset>
+            </div>
+          </section>
+
+          <section class="editor-section" aria-labelledby="editor-output-title">
+            <div class="editor-section-heading">
+              <h3 id="editor-output-title">出力</h3>
+              <span class="editor-count">公開前に確認</span>
+            </div>
+            <div class="editor-actions">
+              <button class="mini-button primary" type="button" data-copy-event-url>イベントURLをコピー</button>
+              <button class="mini-button" type="button" data-save-draft>下書き保存</button>
+              <button class="mini-button" type="button" data-copy-config>config.jsをコピー</button>
+              <button class="mini-button danger" type="button" data-clear-draft>下書きを消す</button>
+            </div>
+            <p class="editor-status" data-editor-status aria-live="polite"></p>
+            <div class="editor-messages" data-editor-messages hidden></div>
+            <label class="field output-field">
+              <span>コピーできない時はここから手動コピー</span>
+              <textarea rows="5" data-editor-output readonly></textarea>
+            </label>
+          </section>
+        </form>
+      </aside>
+    </div>
+
+    <script src="./config.js" defer></script>
+    <script src="./script.js" defer></script>
+  </body>
+</html>
